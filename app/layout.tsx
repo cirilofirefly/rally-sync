@@ -10,7 +10,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Rally Sync",
+  title: "RallySync",
   description: "Next generation event management app",
   icons: {
     icon: "/assets/images/logo.svg",

@@ -14,7 +14,7 @@ const footer = () => {
           />
         </Link>
 
-        <p>&copy; 2024 Rally Sync. All right reserved.</p>
+        <p>&copy; 2024 RallySync. All right reserved.</p>
       </div>
     </footer>
   )
