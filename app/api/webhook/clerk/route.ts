@@ -83,8 +83,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     if (eventType === 'user.deleted') {
         const { id } = evt.data
         const deletedUser = await deleteUser(id!)
-        return NextResponse.json({ message: 'OK', user: deletedUser })
+        return NextResponse.json({ message: 'OK', user: deletedUser }, { status: 200 });
     }
 
-    return NextResponse.json({ message: 'Webhook action successful'});
+    return NextResponse.json({ message: 'Webhook action successful'}, { status: 200 });
 }
