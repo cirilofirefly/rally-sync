@@ -2,9 +2,9 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
 
     if (!WEBHOOK_SECRET) {
@@ -17,9 +17,7 @@ export async function POST(req: Request) {
     const svix_signature = headerPayload.get('svix-signature')
 
     if (!svix_id || !svix_timestamp || !svix_signature) {
-        return new Response('Error occured -- no svix headers', {
-            status: 400,
-        })
+        return NextResponse.json({ message: 'Error occured -- no svix headers'}, { status: 400});
     }
 
     const payload = await req.json()
@@ -37,9 +35,7 @@ export async function POST(req: Request) {
         }) as WebhookEvent
     } catch (err) {
         console.error('Error verifying webhook:', err)
-        return new Response('Error occured', {
-            status: 400,
-        })
+        return NextResponse.json({ message: 'Error occured'}, { status: 400});
     }
 
     const eventType = evt.type
@@ -90,5 +86,5 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'OK', user: deletedUser })
     }
 
-    return new Response('', { status: 200 });
+    return NextResponse.json({ message: 'Webhook action successful'});
 }
