@@ -87,6 +87,9 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
 }
 
 export const handleError = (error: unknown) => {
-	console.error(error)
 	throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
+}
+
+export const cloneObject = <T>(object: T) => {
+	return JSON.parse(JSON.stringify(object))
 }

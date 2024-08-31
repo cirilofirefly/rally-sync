@@ -19,7 +19,7 @@ export type CreateEventParams = {
     event: {
         title: string
         description: string
-        location: string
+        loc: string
         imageUrl: string
         startDateTime: Date
         endDateTime: Date
