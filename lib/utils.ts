@@ -90,6 +90,6 @@ export const handleError = (error: unknown) => {
 	throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
 }
 
-export const cloneObject = <T>(object: T) => {
+export const cloneObject = <T>(object: T | T[]) => {
 	return JSON.parse(JSON.stringify(object))
 }

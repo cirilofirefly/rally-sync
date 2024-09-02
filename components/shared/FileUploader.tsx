@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 
 type FileUploaderProps = {
   imageUrl: string;

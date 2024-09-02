@@ -40,10 +40,12 @@ export const createEvent = async ({ event, userId, path } : CreateEventParams) =
             organizer: userId
         });
 
+        revalidatePath(path)
+
         return cloneObject(newEvent);
 
     } catch(error) {
-        handleError(error)
+        handleError(error);
     }
 }
 

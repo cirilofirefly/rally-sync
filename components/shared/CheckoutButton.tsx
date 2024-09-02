@@ -1,0 +1,36 @@
+'use client';
+
+import { IEvent } from '@/lib/mongodb/database/models/event.model'
+import { SignedIn, SignedOut, useUser } from '@clerk/nextjs';
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import Checkout from './Checkout';
+
+const CheckoutButton = ({ event }: { event: IEvent }) => {
+    const { user } = useUser();
+    const userId = user?.publicMetadata.userId as string;
+    const isEventEnded = new Date(event.endDateTime) < new Date();
+
+  return (
+    <div className='flex items-center gap-3'>
+        {
+            isEventEnded ? 
+                (<p className='p-2 text-red-400'>
+                    Sorry, this event it no longer accept participants.
+                </p>) : 
+                (<>
+                    <SignedOut>
+                        <Button asChild className='button rounded-full' size='lg'>
+                            <Link href="/sign-in">Sign in to get your ticket</Link>
+                        </Button>
+                    </SignedOut>
+                    <SignedIn>
+                        <Checkout event={event} userId={userId} />
+                    </SignedIn>
+                </>)
+        }
+    </div>
+  )
+}
+
+export default CheckoutButton
