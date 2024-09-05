@@ -1,5 +1,6 @@
 import { IEvent } from "@/lib/mongodb/database/models/event.model";
 import Card from "./Card";
+import Pagination from "./Pagination";
 
 type CollectionProps = {
   data: IEvent[];
@@ -7,7 +8,7 @@ type CollectionProps = {
   emptyStateSubtext: string;
   limit: number;
   page: number | string;
-  totalPage?: number;
+  totalPages?: number;
   collectionType?: "Events_Organized" | "My_Tickets" | "All_Events";
   urlParamName?: string;
 };
@@ -18,7 +19,7 @@ const Collection = ({
   emptyStateSubtext,
   limit,
   page,
-  totalPage,
+  totalPages,
   collectionType,
   urlParamName,
 }: CollectionProps) => {
@@ -41,6 +42,8 @@ const Collection = ({
               );
             })}
           </ul>
+
+          {Number(totalPages) > 1 && (<Pagination urlParamName={urlParamName} page={page} totalPages={totalPages as number}  />)}
         </div>
       ) : (
         <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 rounded-[14px] bg-grey-50 py-28 text-center">

@@ -95,8 +95,8 @@ const EventDetails = async ({ params: { id }, searchParams}: SearchParamProps) =
           emptyStateSubtext="Coming soon..."
           collectionType="All_Events"
           limit={6}
-          page={1}
-          totalPage={2}
+          page={searchParams?.page as string}
+          totalPages={relatedEvents?.totalPages}
         />
       </section>
     </>

@@ -1,17 +1,23 @@
 import Collection from "@/components/shared/Collection";
 import { Button } from "@/components/ui/button";
 import { getEventsByUser } from "@/lib/actions/event.actions";
+import { getOrdersByUser } from "@/lib/actions/order.actions";
+import { IOrder } from "@/lib/mongodb/database/models/order.model";
+import { SearchParamProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import React from "react";
 
-const ProfilePage = async () => {
+const ProfilePage = async ({ searchParams }: SearchParamProps) => {
 
     const { sessionClaims } = auth();
     const userId = sessionClaims?.userId as string;
-
-    const createdEvents = await getEventsByUser({userId, limit: 3, page: 1});
-
+    const ordersPage = Number(searchParams?.ordersPage) || 1;
+    const eventsPage = Number(searchParams?.eventsPage) || 1;
+    const createdEvents = await getEventsByUser({userId, limit: 3, page: eventsPage});
+    const orders = await getOrdersByUser({userId, page: ordersPage});
+    const orderedEvents = orders?.data.map((order: IOrder) => order.event || []);
+    
     return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
@@ -25,14 +31,14 @@ const ProfilePage = async () => {
 
       <section className="wrapper my-8">
         <Collection
-          data={[]}
+          data={orderedEvents}
           emptyTitle="No event purchased yet"
           emptyStateSubtext="More exciting events is coming. Explore now!"
           collectionType="My_Tickets"
           limit={3}
-          page={1}
+          page={ordersPage}
           urlParamName="ordersPage"
-          totalPage={2}
+          totalPages={orders?.totalPages}
         />
       </section>
 
@@ -52,9 +58,9 @@ const ProfilePage = async () => {
           emptyStateSubtext="Let's create an event to explore by your audience!"
           collectionType="Events_Organized"
           limit={6}
-          page={1}
+          page={eventsPage}
           urlParamName="eventsPage"
-          totalPage={2}
+          totalPages={createdEvents?.totalPages}
         />
       </section>
 

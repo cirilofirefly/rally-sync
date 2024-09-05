@@ -63,7 +63,7 @@ export const createOrder = async (order: CreateOrderParams) => {
 
 export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEventParams) {
     try {
-        await connectToDatabase()
+        await connectToDatabase();
 
         if (!eventId) throw new Error('Event ID is required')
         const eventObjectId = new ObjectId(eventId)
@@ -120,8 +120,8 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
     try {
         await connectToDatabase()
 
-        const skipAmount = (Number(page) - 1) * limit
-        const conditions = { buyer: userId }
+        const skipAmount = (Number(page) - 1) * limit;
+        const conditions = {buyer: userId};
 
         const orders = await Order.distinct('event._id')
             .find(conditions)
